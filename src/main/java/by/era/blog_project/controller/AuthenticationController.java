@@ -27,7 +27,7 @@ public class AuthenticationController {
     /**
      * Регистрация нового пользователя
      */
-    @PostMapping("/register")
+    @PostMapping("/registration")
     public ResponseEntity<UserDto> register(
             @Valid @RequestBody UserRegistrationDto dto) {
         UserDto created = registrationService.register(dto);
