@@ -42,9 +42,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public PostDto create(PostCreateDto dto, String authorname) {
+    public PostDto create(PostCreateDto dto, String authorEmail) {
 
-        User author = userRepository.findByUsername(authorname)
+        User author = userRepository.findByEmail(authorEmail)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         Post post = Post.builder()
@@ -74,14 +74,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void delete(Long postId, String currentUsername) {
+    public void delete(Long postId, String currentUserEmail) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found: " + postId));
 
-        User currentUser = userRepository.findByUsername(currentUsername)
-                .orElseThrow(() -> new EntityNotFoundException("User not found: " + currentUsername));
+        User currentUser = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found: " + currentUserEmail));
 
-        boolean isAuthor = post.getAuthor().getUsername().equals(currentUsername);
+        boolean isAuthor = post.getAuthor().getEmail().equals(currentUserEmail);
         boolean isAdmin  = "ROLE_ADMIN".equals(currentUser.getRole().getName());
 
         if (!isAuthor && !isAdmin) {

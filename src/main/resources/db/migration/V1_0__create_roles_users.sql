@@ -1,5 +1,4 @@
 -- Удаление таблиц, если они существуют
-DROP TABLE IF EXISTS comments CASCADE;
 DROP TABLE IF EXISTS posts CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS roles CASCADE;
@@ -45,23 +44,6 @@ CREATE TABLE posts
     updated_at  TIMESTAMP,
     author_id   BIGINT       NOT NULL
         CONSTRAINT posts_users_id_fk
-            REFERENCES users
-            ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE TABLE comments
-(
-    id         BIGSERIAL
-        CONSTRAINT comments_pk
-            PRIMARY KEY,
-    content    TEXT      NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    post_id    BIGINT    NOT NULL
-        CONSTRAINT comments_posts_id_fk
-            REFERENCES posts
-            ON UPDATE CASCADE ON DELETE CASCADE,
-    author_id  BIGINT    NOT NULL
-        CONSTRAINT comments_users_id_fk
             REFERENCES users
             ON UPDATE CASCADE ON DELETE CASCADE
 );

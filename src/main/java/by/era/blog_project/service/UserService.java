@@ -1,9 +1,7 @@
 package by.era.blog_project.service;
 
-import by.era.blog_project.dto.UserChangePassword;
 import by.era.blog_project.dto.UserDto;
 import by.era.blog_project.dto.UserRegistrationDto;
-import by.era.blog_project.dto.UserUpdateDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

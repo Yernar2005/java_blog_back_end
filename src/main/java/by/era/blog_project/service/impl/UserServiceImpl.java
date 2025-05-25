@@ -30,7 +30,8 @@ public class UserServiceImpl implements UserService {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getRole().getName(),
+                user.getRole() != null ? user.getRole().getName() : null,
+                user.getCreatedAt(),  // Добавляем createdAt
                 user.getIsActive()
         );
     }

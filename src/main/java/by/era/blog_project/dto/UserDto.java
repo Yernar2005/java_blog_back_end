@@ -15,6 +15,8 @@ public class UserDto {
     private Long id;
     private String username;
     private String email;
-    private String role;
+    private String roleName;
+    private Instant createdAt;
     private Boolean isActive;
+
 }

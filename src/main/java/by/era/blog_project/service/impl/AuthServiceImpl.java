@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtResponseDto login(LoginRequestDto dto) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
         String access = tokenProvider.generateAccessToken(auth);
         String refresh = tokenProvider.generateRefreshToken(auth);
@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
 //        Setting for BaseData
         String saveToBd = tokenProvider.extractTokenId(refresh);
         String username = auth.getName();
-        User user = userRepository.findByUsername(username)
+        User user = userRepository.findByEmail(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Instant now = Instant.now();
@@ -77,8 +77,8 @@ public class AuthServiceImpl implements AuthService {
         }
 
         UUID saveToBD = UUID.fromString(tokenProvider.extractTokenId(refreshToken));
-        String username = tokenProvider.extractUsername(refreshToken);
-        User user = userRepository.findByUsername(username)
+        String userEmail = tokenProvider.extractUsername(refreshToken);
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
 //        Проверяем наличие и статуса токена в БД
@@ -97,9 +97,9 @@ public class AuthServiceImpl implements AuthService {
 
 
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                userDetailsService.loadUserByUsername(username),
+                userDetailsService.loadUserByUsername(userEmail),
                 null,
-                userDetailsService.loadUserByUsername(username).getAuthorities()
+                userDetailsService.loadUserByUsername(userEmail).getAuthorities()
         );
 
 
